@@ -1,0 +1,12 @@
+
+[default]
+SECRET_KEY="@jinja {{env.SECRET_KEY}}"
+
+[development]
+MONGODB_SETTINGS={host="@jinja {{env.DATABASE_DEV}}"}
+
+[production]
+MONGODB_SETTINGS={host="@jinja {{env.DATABASE_PRODUCTION}}"}
+
+[testing]
+MONGODB_SETTINGS={host="@jinja {{env.DATABASE_TESTING}}"}
