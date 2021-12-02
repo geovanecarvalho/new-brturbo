@@ -12,7 +12,6 @@ def create_app():
     extension.init_app(app)
 
     mongodbConfig.init_app(app)
-
     app.register_blueprint(home_blueprint)
     app.register_blueprint(auth_blueprint)
 
