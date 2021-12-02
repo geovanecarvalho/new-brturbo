@@ -1,0 +1,7 @@
+FLASK_APP=app:create_app
+FLASK_ENV=development
+SECRET_KEY=mysecret_key
+
+DATABASE_DEV=mydb_connection_string
+DATABASE_PRODUCTION=mydb_connection_string
+DATABASE_TESTING=mydb_connection_string
