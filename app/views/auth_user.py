@@ -5,8 +5,9 @@ from ..models.model_user import User
 from flask_login import LoginManager, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from ..extensions.extension import login_manager
-from secrets import token_hex
-from ..services.token.gerador import generation_token, read_token
+from ..services.token.token_generate import Token
+
+token_key = Token()
 
 
 @login_manager.unauthorized_handler
@@ -36,7 +37,7 @@ def login():
             return redirect(url_for("auth.login"))
 
         if user:
-            generation_token()
+            token_key.generate_new_token()
             session["user_id"] = str(user.id)
             return redirect(url_for("auth.token"))
 
@@ -55,7 +56,7 @@ def register():
         user.save()
 
         session["user_id"] = str(user.id)
-        generation_token()
+        token_key.generate_new_token()
 
         return redirect(url_for("auth.token"))
     return render_template("auth/register.html")
@@ -64,7 +65,7 @@ def register():
 @auth.route("/token", methods=["GET", "POST"])
 def token():
 
-    token = read_token()
+    token = token_key.get_token()
     print(token)
     if request.method == "POST":
 
@@ -72,7 +73,7 @@ def token():
             user_id = session["user_id"]
             user = User.objects(id=user_id).first()
             login_user(user)
-            return redirect(url_for("home.dashboard"))
+            return redirect(url_for("scrapy.add_game"))
     return render_template("auth/token.html")
 
 
