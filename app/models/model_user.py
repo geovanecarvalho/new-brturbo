@@ -8,4 +8,6 @@ class User(UserMixin, db.Document):
     last_name = db.StringField(max_length=50)
     email = db.EmailField(required=True)
     password = db.StringField()
-    create_at = db.DateTimeField(default=datetime.now)
+    gamer = db.ListField()
+    update_at = db.DateTimeField(requered=True, default=datetime.now)
+    create_at = db.DateTimeField(requered=True, default=datetime.now)

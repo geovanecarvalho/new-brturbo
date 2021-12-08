@@ -2,14 +2,15 @@ import crochet
 
 crochet.setup()
 import os
-from flask import Flask, render_template, jsonify, request, redirect, url_for
+from flask import Flask, render_template, jsonify, request, redirect, url_for, session
 from scrapy import signals
 from scrapy.crawler import CrawlerRunner
 from scrapy.signalmanager import dispatcher
 import time
 from . import scrapy
 from ..services.scraping.brturbo import Brturbo
-
+from ..models.model_user import User
+from flask_login import login_user
 
 output_data = []
 crawl_runner = CrawlerRunner()
@@ -17,8 +18,11 @@ crawl_runner = CrawlerRunner()
 
 @scrapy.route("/add_game", methods=["GET", "POST"])
 def add_game():
-    if len(output_data) > 0:
-        redirect(url_for("home.dashboard"))
+    user = User.objects(id=session["user_id"]).first()
+
+    if len(user.gamer) > 0:
+        login_user(user)
+        return redirect(url_for("home.dashboard"))
 
     if request.method == "POST":
         s = request.form["url"]
@@ -40,7 +44,15 @@ def scrape():
 
     time.sleep(20)
 
-    return jsonify(output_data)
+    user = User.objects(id=session["user_id"]).first()
+
+    user.gamer = output_data
+
+    user.save()
+
+    jsonify(output_data)
+
+    return redirect(url_for("home.dashboard"))
 
 
 @crochet.run_in_reactor
