@@ -3670,5 +3670,27 @@ table.grid td {
     color: rgb(253 165 0);
 }
 
+.painel-user img {
+    border-radius: 50%;
+    width: 100px;
+    border: 2px #fff solid;
+    
+}   
 
+.painel-user h5 {
+    margin-left: 5px;
+    margin-top: 10px;
+    
+    
+}   
+.font-data {
+    font-size: 12px;
+}
 
+.bottom-data{
+    font-size: 10px;
+}
+
+.number-data{
+    margin-top: 10px;
+}

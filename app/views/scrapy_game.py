@@ -25,7 +25,7 @@ def add_game():
         return redirect(url_for("home.dashboard"))
 
     if request.method == "POST":
-        s = request.form["url"]
+        s = request.form["gamer"]
         global baseURL
         baseURL = s
 

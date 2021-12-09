@@ -10,6 +10,11 @@ def url_scraper(plataforma, user):
 
 class Warzone(scrapy.Item):
     username = scrapy.Field()
+    platform = scrapy.Field()
+    views = scrapy.Field()
+    img_level = scrapy.Field()
+    level = scrapy.Field()
+    status_level = scrapy.Field()
     avatar = scrapy.Field()
     playtime = scrapy.Field()
     wins = scrapy.Field()
@@ -43,10 +48,11 @@ class Brturbo(scrapy.Spider):
     name = "brturbo"
     start_urls = []
 
-    custom_settings = {
-        "FEED_URI": "warzone.json",
-        "CLOSESPIDER_TIMEOUT": 15,
-    }
+    # save json
+    # custom_settings = {
+    #     "FEED_URI": "warzone.json",
+    #     "CLOSESPIDER_TIMEOUT": 15,
+    # }
 
     def __init__(self, category="", **kwargs):
         super().__init__(**kwargs)
@@ -57,6 +63,11 @@ class Brturbo(scrapy.Spider):
         warzone = response.xpath('//span[@class="value"]/text()').getall()
 
         dados["username"] = response.css("span.trn-ign__username::text").get()
+        dados["img_level"] = response.css(".level-progression img").xpath("@src").get()
+        dados["level"] = response.css(".level-progression__suptext::text").get()
+        dados["status_level"] = response.css(".level-progression__text::text").get()
+        dados["views"] = response.css(".ph-details__subtitle span span::text").get()
+        dados["platform"] = response.css("svg.platform-icon").xpath("@class").get()[19:]
         dados["avatar"] = response.css(".ph-avatar__image::attr(src)").get()
         dados["playtime"] = response.css("span.playtime::text").get().strip()[:-10]
         dados["wins"] = warzone[0]

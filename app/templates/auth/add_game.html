@@ -1,36 +1,44 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html"%}
 
-<head>
-    <title>temp_app</title>
-</head>
+{% block content %}
 
-<style>
-    h1 {
-        text-align: center;
-    }
+<div class="height-100v d-flex align-items-center justify-content-center">
+    <div class="card card-authentication1 mb-0">
+        <div class="card-body">
+            <div class="card-content p-2">
+                <div class="text-center">
+                    <div class="card-title text-uppercase pb-2">Adicione o Jogo</div>
+                    <div class="card-title pb-2">
+                        <a href="https://cod.tracker.gg/warzone" target="blank">
 
-    form {
-        text-align: center;
-    }
-</style>
+                            <img src="{{url_for('static', filename='images/homepage/cod_tracker.png')}}" width="100px"
+                                alt="logo icon">
+                        </a>
+                    </div>
+                    <a href="https://cod.tracker.gg/warzone" target="blank">Acesse o site do Cod Tracker aqui!</a>
+                </div>
+                <p style="margin-top: 30px;" class="pb-2">Por favor entre no site do code tracker copie a url do seu
+                    player e cole abaixo!</p>
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="exampleInputEmailAddress" class="">Escolha o Jogo</label>
+                        <div class="position-relative has-icon-right">
+                            <input type="text" id="exampleInputEmailAddress" name="gamer"
+                                class="form-control input-shadow" placeholder="Cole sua url aqui">
+                            <div class="form-control-position">
+                                <i class="icon-envelope-open"></i>
+                            </div>
+                        </div>
+                    </div>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-<body>
-    <div class="w3-container w3-display-middle">
-        <div class="w3-panel w3-card" style="height: 400px;">
-            <h1>Usuário Gamer</h1><br><br>
-
-            <a href="https://cod.tracker.gg/warzone" target="blank">Cod Tracker</a>
-            <form id="input-form" method="post">
-                <input type="text" name="url" style="width: 300px;" placeholder="Amazon Product URL" /><br><br>
-                <input id="submitbutton" type="submit" name="submitbutton" value="Analyze Reviews" />
-            </form>
+                    <button type="submit" class="btn btn-light btn-block mt-3">Salvar Jogo</button>
+                </form>
+            </div>
+        </div>
+        <div class="card-footer text-center py-3">
+            <p class="text-warning mb-0">Return to the <a href="{{url_for('home.homepage')}}">Home page</a></p>
         </div>
     </div>
+</div>
 
-</body>
-
-</html>
+{% endblock %}

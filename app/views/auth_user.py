@@ -54,18 +54,20 @@ def login():
 @auth.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        user = User()
-        user.first_name = request.form["first_name"]
-        user.last_name = request.form["last_name"]
-        user.email = request.form["email"]
-        user.password = generate_password_hash(request.form["password"])
+        if request.form["password"] == request.form["password2"]:
+            user = User()
+            user.first_name = request.form["first_name"]
+            user.last_name = request.form["last_name"]
+            user.email = request.form["email"]
+            user.password = generate_password_hash(request.form["password"])
 
-        user.save()
+            user.save()
 
-        session["user_id"] = str(user.id)
-        token_key.generate_new_token()
+            session["user_id"] = str(user.id)
+            token_key.generate_new_token()
 
-        return redirect(url_for("auth.token"))
+            return redirect(url_for("auth.token"))
+        flash("As senhas são diferentes")
     return render_template("auth/register.html")
 
 
@@ -101,7 +103,7 @@ def recover_password():
 
 
 @auth.route("/new_password/<id>", methods=["GET", "POST"])
-def teste(id):
+def new_password(id):
 
     if request.method == "POST":
         try:
