@@ -1,7 +1,37 @@
-<p>Verifique sua caixa de email para insira o token no formulário</p>
-<form action="" method="POST">
-    <input type="text" name="token" placeholder="Token">
+{% extends "base.html"%}
 
+{% block content %}
 
-    <button type="submit">Enviar Token</button>
-</form>
+<div class="height-100v d-flex align-items-center justify-content-center">
+    <div class="card card-authentication1 mb-0">
+        <div class="card-body">
+            <div class="card-content p-2">
+                <div class="text-center">
+                    <img src="{{url_for('static', filename='images/homepage/BrTurbo-logo.png')}}" width="100px"
+                        alt="logo icon">
+                    <div class="card-title text-uppercase pb-2">Token</div>
+                </div>
+                <p class="pb-2">Por favor verifique sua caixa de email e ensira o token.</p>
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="exampleInputEmailAddress" class="">Token</label>
+                        <div class="position-relative has-icon-right">
+                            <input type="text" id="exampleInputEmailAddress" name="token"
+                                class="form-control input-shadow" placeholder="Insira seu Token">
+                            <div class="form-control-position">
+                                <i class="icon-envelope-open"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-light btn-block mt-3">Redefinir Senha</button>
+                </form>
+            </div>
+        </div>
+        <div class="card-footer text-center py-3">
+            <p class="text-warning mb-0">Return to the <a href="{{url_for('home.homepage')}}">Home page</a></p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

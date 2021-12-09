@@ -1,24 +1,38 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+{% extends "base.html"%}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>recover</title>
-</head>
+{% block content %}
 
-<body>
-    <h1>Recuperar Conta</h1>
-    <hr>
-    <a href="{{url_for('home.homepage')}}">Home Page</a>
+<div class="height-100v d-flex align-items-center justify-content-center">
+    <div class="card card-authentication1 mb-0">
+        <div class="card-body">
+            <div class="card-content p-2">
+                <div class="text-center">
+                    <img src="{{url_for('static', filename='images/homepage/BrTurbo-logo.png')}}" width="100px"
+                        alt="logo icon">
+                    <div class="card-title text-uppercase pb-2">Redefinir Senha</div>
+                </div>
+                <p class="pb-2">Por favor, indique o seu endereço de email. Você receberá um link para criar uma nova
+                    senha por e-mail.</p>
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmailAddress" class="">endereço de e-mail</label>
+                        <div class="position-relative has-icon-right">
+                            <input type="text" id="exampleInputEmailAddress" class="form-control input-shadow"
+                                placeholder="Endereço de e-mail">
+                            <div class="form-control-position">
+                                <i class="icon-envelope-open"></i>
+                            </div>
+                        </div>
+                    </div>
 
-    <form action="" method="POST">
-        <label for="">Email de recuperação</label>
-        <input type="email" name="email" placeholder="email digite seu email">
+                    <button type="button" class="btn btn-light btn-block mt-3">Redefinir Senha</button>
+                </form>
+            </div>
+        </div>
+        <div class="card-footer text-center py-3">
+            <p class="text-warning mb-0">Return to the <a href="{{url_for('auth.login')}}">Login</a></p>
+        </div>
+    </div>
+</div>
 
-        <button type="submit">Enviar</button>
-    </form>
-</body>
-
-</html>
+{% endblock %}
