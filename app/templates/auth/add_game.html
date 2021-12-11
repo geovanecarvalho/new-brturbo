@@ -1,16 +1,16 @@
-{% extends "base.html"%}
+{% extends "base_token.html"%}
 
 {% block content %}
 
 <div class="height-100v d-flex align-items-center justify-content-center">
     <div class="card card-authentication1 mb-0">
-        <div class="card-body">
+        <div class="card-body" id='gamer'>
             <div class="card-content p-2">
                 <div class="text-center">
                     <div class="card-title text-uppercase pb-2">Adicione o Jogo</div>
+                    <div id='lod'></div>
                     <div class="card-title pb-2">
                         <a href="https://cod.tracker.gg/warzone" target="blank">
-
                             <img src="{{url_for('static', filename='images/homepage/cod_tracker.png')}}" width="100px"
                                 alt="logo icon">
                         </a>
@@ -19,24 +19,36 @@
                 </div>
                 <p style="margin-top: 30px;" class="pb-2">Por favor entre no site do code tracker copie a url do seu
                     player e cole abaixo!</p>
-                <form method="POST">
+
+                <form id='url' method="POST">
                     <div class="form-group">
+                        {% with messages = get_flashed_messages()%}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-danger" role="alert">
+                            {{message}}
+                        </div>
+                        {% endfor%}
+                        {% endif %}
+                        {% endwith %}
                         <label for="exampleInputEmailAddress" class="">Escolha o Jogo</label>
                         <div class="position-relative has-icon-right">
-                            <input type="text" id="exampleInputEmailAddress" name="gamer"
+                            <input type="text" id="exampleInputEmailAddress" name="gamer" required
+                                pattern="https://cod.tracker.gg/warzone/profile/(.*)" autocomplete="off"
                                 class="form-control input-shadow" placeholder="Cole sua url aqui">
                             <div class="form-control-position">
-                                <i class="icon-envelope-open"></i>
+                                <i class="fa fa-link"></i>
                             </div>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-light btn-block mt-3">Salvar Jogo</button>
+                    <button type="submit" onclick="loding()" class="btn btn-success btn-block mt-3">Salvar
+                        Jogo</button>
                 </form>
             </div>
-        </div>
-        <div class="card-footer text-center py-3">
-            <p class="text-warning mb-0">Return to the <a href="{{url_for('home.homepage')}}">Home page</a></p>
+            <div class="card-footer text-center py-3">
+                <p class="text-warning mb-0">Return to the <a href="{{url_for('home.homepage')}}">Home page</a></p>
+            </div>
         </div>
     </div>
 </div>

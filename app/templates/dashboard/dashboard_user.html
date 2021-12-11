@@ -44,8 +44,8 @@
             <div class="card-content">
                 <div class="row row-group m-0">
                     <div class="col-12 col-lg-4 col-xl-4 border-light">
-                        <div class="painel-user card-body">
-                            <img src="{{user.gamer[0].avatar}}" alt="">
+                        <div class=" card-body">
+                            <img class="painel-user" src="{{user.gamer[0].avatar}}" alt="">
 
                             <h5>
                                 {% if user.gamer[0].platform == 'platform-xbl'%}
@@ -57,11 +57,13 @@
                                 {% endif %}
 
                                 {% if user.gamer[0].platform == 'platform-atvi' %}
-                                <img src="{{url_for('static', filename='images/homepage/atvi.png')}}" alt="">
-                                {% endif %}
 
-                                {% if user.gamer[0].platform == 'platform-battlenet' %}
-                                <img src="{{url_for('static', filename='images/homepage/battlenet.png')}}" alt="">
+
+                                <img style="width: none;"
+                                    src="{{url_for('static', filename='images/homepage/atvi.png')}}" alt="">
+                                {% endif %} {% if user.gamer[0].platform=='platform-battlenet' %} <img
+                                    src="{{url_for('static', filename='images/homepage/battlenet.png')}}" width="50px"
+                                    alt="">
                                 {% endif %}
                                 {{user.gamer[0].username| title}}
                             </h5>

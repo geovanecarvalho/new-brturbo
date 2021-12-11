@@ -9,5 +9,6 @@ class User(UserMixin, db.Document):
     email = db.EmailField(required=True)
     password = db.StringField()
     gamer = db.ListField()
+    token = db.StringField()
     update_at = db.DateTimeField(requered=True, default=datetime.now)
     create_at = db.DateTimeField(requered=True, default=datetime.now)

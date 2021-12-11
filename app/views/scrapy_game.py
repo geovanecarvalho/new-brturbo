@@ -2,7 +2,16 @@ import crochet
 
 crochet.setup()
 import os
-from flask import Flask, render_template, jsonify, request, redirect, url_for, session
+from flask import (
+    Flask,
+    render_template,
+    jsonify,
+    request,
+    redirect,
+    url_for,
+    session,
+    flash,
+)
 from scrapy import signals
 from scrapy.crawler import CrawlerRunner
 from scrapy.signalmanager import dispatcher
@@ -19,6 +28,8 @@ crawl_runner = CrawlerRunner()
 @scrapy.route("/add_game", methods=["GET", "POST"])
 def add_game():
     user = User.objects(id=session["user_id"]).first()
+    if session["user_id"] is None:
+        return redirect(url_for("home.homepage"))
 
     if len(user.gamer) > 0:
         login_user(user)
@@ -50,9 +61,15 @@ def scrape():
 
     user.save()
 
-    jsonify(output_data)
+    # jsonify(output_data)
 
-    return redirect(url_for("home.dashboard"))
+    if len(output_data) > 0:
+        session["game"] = 1
+        login_user(user)
+        return redirect(url_for("home.dashboard"))
+
+    flash("Usuario não encontrado tente novamente!")
+    return redirect(url_for("scrapy.add_game"))
 
 
 @crochet.run_in_reactor

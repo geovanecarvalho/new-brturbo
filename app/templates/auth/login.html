@@ -43,15 +43,15 @@
           <div class="form-group col-6">
             <div class="icheck-material-white">
               <input type="checkbox" id="user-checkbox" checked="" />
-              <label for="user-checkbox">Remember me</label>
+              <label for="user-checkbox">Lembre-me</label>
             </div>
           </div>
           <div class="form-group col-6 text-right">
             <a href="{{url_for('auth.recover_password')}}">Esqueceu sua senha?</a>
           </div>
         </div>
-        <button type="submit" class="btn btn-light btn-block">Entrar</button>
-        <div class="text-center mt-3">Sign In With</div>
+        <button type="submit" class="btn btn-success btn-block">Entrar</button>
+        <div class="text-center mt-3">Entrar com</div>
 
         <div class="form-row mt-4">
           <div class="form-group mb-0 col-6">
@@ -67,8 +67,7 @@
     </div>
   </div>
   <div class="card-footer text-center py-3">
-    <p class="text-warning mb-0">Do not have an account? <a href="{{url_for('auth.register')}}"
-        class="btn btn-success">Cadastre
+    <p class="text-warning mb-0">Você não tem uma conta? <a href="{{url_for('auth.register')}}">Cadastre
         Aqui</a></p>
   </div>
 </div>

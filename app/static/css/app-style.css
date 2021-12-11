@@ -3670,7 +3670,7 @@ table.grid td {
     color: rgb(253 165 0);
 }
 
-.painel-user img {
+.painel-user {
     border-radius: 50%;
     width: 100px;
     border: 2px #fff solid;
@@ -3693,4 +3693,22 @@ table.grid td {
 
 .number-data{
     margin-top: 10px;
+}
+
+.loding {
+
+    border: 8px solid rgba(0, 0, 0, .1);
+    margin-left: 45%;
+    margin-bottom: 10px;
+    border-radius: 100%;
+    border-left-color: #fda503;
+    height: 30px;
+    width: 30px;
+    animation: spin 1s linear infinite
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg)
+    }
 }

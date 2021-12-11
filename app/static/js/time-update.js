@@ -16,15 +16,9 @@ function startTimer(duration, display) {
     }, 1000)
 }
 
-// window.onload = function () {
-//     var duration = 60 * 4;
-//     var diplay = document.querySelector("#timer");
 
-//     startTimer(duration, display);
-
-//     console.log("ok");
-// }
 
 var display = document.querySelector("#timer");
 
 startTimer(60 * 5, display);
+

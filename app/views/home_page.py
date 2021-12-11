@@ -1,6 +1,6 @@
 from flask_login import login_manager
 from . import home
-from flask import redirect, url_for, render_template, jsonify, session
+from flask import redirect, url_for, render_template, jsonify, session, request
 from ..models.model_user import User
 from flask_login import login_required, current_user
 
@@ -14,17 +14,28 @@ import subprocess
 
 @home.route("/")
 def homepage():
-    user = User(
-        first_name="Geovane",
-        last_name="Carvalho",
-        email="geovane@gmail.com",
-        password="asdf123",
-    )
 
-    return render_template("homepage.html")
+    if session.get("user_name") == None:
+        user_name = None
+    else:
+        user_name = session.get("user_name")
+
+    if session.get("token") == None:
+        token = None
+    else:
+        token = session.get("token")
+
+    if session.get("game") == 0:
+        game = None
+
+    else:
+        game = session.get("game")
+
+    print(game, token, user_name)
+    return render_template("homepage.html", user_name=user_name, token=token, game=game)
 
 
-@home.route("/dashboard")
+@home.route("/dashboard", methods=["GET", "POST"])
 @login_required
 def dashboard():
     user = User.objects(id=session["user_id"]).first()

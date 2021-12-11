@@ -11,6 +11,7 @@ from secrets import token_hex
 from datetime import datetime
 
 token_key = Token()
+validate_token = 0
 
 
 @login_manager.unauthorized_handler
@@ -24,7 +25,8 @@ def current_user(user_id):
     if user is None:
         return user
 
-    elif len(user.gamer) > 0:
+    elif len(user.gamer) > 0 and user.token == token_key.get_token():
+
         return user
 
 
@@ -46,6 +48,8 @@ def login():
         if user:
             token_key.generate_new_token()
             session["user_id"] = str(user.id)
+            session["user_name"] = str(user.first_name)
+            session["game"] = str(len(user.gamer))
             return redirect(url_for("auth.token"))
 
     return render_template("auth/login.html")
@@ -64,6 +68,10 @@ def register():
             user.save()
 
             session["user_id"] = str(user.id)
+            session["user_name"] = str(user.first_name)
+            session["game"] = str(len(user.gamer))
+
+            print(session["user_id"])
             token_key.generate_new_token()
 
             return redirect(url_for("auth.token"))
@@ -80,9 +88,14 @@ def token():
 
         if request.form["token"] == token:
             user_id = session["user_id"]
+            session["token"] = token
             user = User.objects(id=user_id).first()
 
+            user.update(token=token)
+
             return redirect(url_for("scrapy.add_game"))
+    if session["user_id"] is None:
+        return redirect(url_for("home.homepage"))
     return render_template("auth/token.html")
 
 
@@ -129,4 +142,7 @@ def new_password(id):
 def logout():
     logout_user()
     session["user_id"] = None
+    session["user_name"] = None
+    session["game"] = None
+    session["token"] = None
     return redirect(url_for("home.homepage"))

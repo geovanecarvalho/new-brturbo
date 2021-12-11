@@ -1,4 +1,4 @@
-{% extends "base.html"%}
+{% extends "base_token.html"%}
 
 {% block content %}
 
@@ -16,15 +16,15 @@
                     <div class="form-group">
                         <label for="exampleInputEmailAddress" class="">Token</label>
                         <div class="position-relative has-icon-right">
-                            <input type="text" id="exampleInputEmailAddress" name="token"
-                                class="form-control input-shadow" placeholder="Insira seu Token">
+                            <input type="text" id="exampleInputEmailAddress" name="token" autocomplete="off"
+                                style="text-align:center;" class="form-control input-shadow" placeholder="TOKEN">
                             <div class="form-control-position">
-                                <i class="icon-envelope-open"></i>
+                                <i class="fa fa-key"></i>
                             </div>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-light btn-block mt-3">Enviar Token</button>
+                    <button type="submit" class="btn btn-success btn-block mt-3">Enviar Token</button>
                 </form>
             </div>
         </div>
