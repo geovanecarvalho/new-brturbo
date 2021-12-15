@@ -30,6 +30,7 @@
 }
 .sidebar-menu {
 	list-style: none;
+	height: 640px;
 	margin: 0;
 	padding: 0;
 	background-color: #38424e;

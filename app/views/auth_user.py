@@ -9,6 +9,7 @@ from ..extensions.extension import login_manager
 from ..services.token.token_generate import Token
 from secrets import token_hex
 from datetime import datetime
+from ..services.email.email import email_new_password, email_token, enviar_email
 
 token_key = Token()
 validate_token = 0
@@ -50,6 +51,10 @@ def login():
             session["user_id"] = str(user.id)
             session["user_name"] = str(user.first_name)
             session["game"] = str(len(user.gamer))
+
+            email = email_token(token_key.get_token())
+            enviar_email(str(user.email), "Token de Acesso", email)
+
             return redirect(url_for("auth.token"))
 
     return render_template("auth/login.html")
@@ -71,8 +76,10 @@ def register():
             session["user_name"] = str(user.first_name)
             session["game"] = str(len(user.gamer))
 
-            print(session["user_id"])
             token_key.generate_new_token()
+
+            email = email_token(token_key.get_token())
+            enviar_email(str(user.email), "Token de Acesso", email)
 
             return redirect(url_for("auth.token"))
         flash("As senhas são diferentes")
@@ -81,15 +88,14 @@ def register():
 
 @auth.route("/token", methods=["GET", "POST"])
 def token():
-
+    user_id = session["user_id"]
+    user = User.objects(id=user_id).first()
     token = token_key.get_token()
-    print(token)
+
     if request.method == "POST":
 
         if request.form["token"] == token:
-            user_id = session["user_id"]
             session["token"] = token
-            user = User.objects(id=user_id).first()
 
             user.update(token=token)
 
@@ -99,18 +105,42 @@ def token():
     return render_template("auth/token.html")
 
 
+@auth.route("/token_resend")
+def token_resend():
+    flash(
+        "Eviamos o email com token novamente, verifique sua caixa de email ou sua caixa de span e ensira o token aqui, obrigado."
+    )
+    user_id = session["user_id"]
+    user = User.objects(id=user_id).first()
+
+    email = email_token(token_key.get_token())
+    enviar_email(str(user.email), "Token de Acesso", email)
+
+    return redirect(url_for("auth.token"))
+
+
 @auth.route("/recover/email/password", methods=["GET", "POST"])
 def recover_password():
     form = False
     if request.method == "POST":
+
         email = request.form["email"]
         user = User.objects(email=email).first()
 
-        if user is None:
-            flash("Email não encontrado ferifique se este email esta correto")
+        if user is not None:
+            flash(
+                message="Enviamos um email com link para redefinição de senha.",
+                category="success",
+            )
+            url = f"http://localhost:5000/new_password/{user.id}"
+            email = render_template("email/email_redefinir_senha.html", url=url)
 
-        flash("Verifique o sua caixa de email para redefinir a senha")
-        print(f"http://localhost:5000/new_password/{user.id}")
+            enviar_email(str(user.email), "Token de Acesso", email)
+        else:
+            flash(
+                message="Não existe este email cadastrado em nosso sistema!",
+                category="danger",
+            )
 
     return render_template("auth/recover.html", form=form)
 
@@ -130,7 +160,7 @@ def new_password(id):
 
                 return redirect(url_for("auth.login"))
 
-            flash("As senhas são difentes")
+            flash(message="As senhas não são iguais!", category="danger")
         except:
             return redirect(url_for("auth.recover_password"))
 
@@ -145,4 +175,5 @@ def logout():
     session["user_name"] = None
     session["game"] = None
     session["token"] = None
+
     return redirect(url_for("home.homepage"))

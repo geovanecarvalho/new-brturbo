@@ -1,6 +1,8 @@
-{% extends "base_token.html"%}
+{% extends "base.html"%}
 
 {% block content %}
+
+{% include "auth/nav_auth.html"%}
 
 <div class="height-100v d-flex align-items-center justify-content-center">
     <div class="card card-authentication1 mb-0">
@@ -14,6 +16,15 @@
                 <p class="pb-2">Por favor verifique sua caixa de email e ensira o token.</p>
                 <form method="POST">
                     <div class="form-group">
+                        {% with messages = get_flashed_messages()%}
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-info p-3" role="alert">
+                            {{message}}
+                        </div>
+                        {% endfor%}
+                        {% endif %}
+                        {% endwith %}
                         <label for="exampleInputEmailAddress" class="">Token</label>
                         <div class="position-relative has-icon-right">
                             <input type="text" id="exampleInputEmailAddress" name="token" autocomplete="off"
@@ -29,7 +40,9 @@
             </div>
         </div>
         <div class="card-footer text-center py-3">
-            <p class="text-warning mb-0">Return to the <a href="{{url_for('home.homepage')}}">Home page</a></p>
+            <p class="text-warning mb-0">Não recebi o token<a href="{{url_for('auth.token_resend')}}"> Enviar
+                    novamente</a>
+            </p>
         </div>
     </div>
 </div>

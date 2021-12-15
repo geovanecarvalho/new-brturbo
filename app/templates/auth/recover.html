@@ -1,7 +1,7 @@
 {% extends "base.html"%}
 
 {% block content %}
-
+{% include "auth/nav_auth.html" %}
 <div class="height-100v d-flex align-items-center justify-content-center">
     <div class="card card-authentication1 mb-0">
         <div class="card-body">
@@ -13,19 +13,28 @@
                 </div>
                 <p class="pb-2">Por favor, indique o seu endereço de email. Você receberá um link para criar uma nova
                     senha por e-mail.</p>
-                <form>
+                <form method="POST">
                     <div class="form-group">
+                        {% with messages = get_flashed_messages(with_categories=True)%}
+                        {% if messages %}
+                        {% for category, message in messages %}
+                        <div class="alert alert-{{category}} p-3" role="alert">
+                            {{message}}
+                        </div>
+                        {% endfor%}
+                        {% endif %}
+                        {% endwith %}
                         <label for="exampleInputEmailAddress" class="">endereço de e-mail</label>
                         <div class="position-relative has-icon-right">
-                            <input type="text" id="exampleInputEmailAddress" class="form-control input-shadow"
-                                placeholder="Endereço de e-mail">
+                            <input type="text" id="exampleInputEmailAddress" name="email"
+                                class="form-control input-shadow" placeholder="Endereço de e-mail">
                             <div class="form-control-position">
                                 <i class="icon-envelope-open"></i>
                             </div>
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-light btn-block mt-3">Redefinir Senha</button>
+                    <button type="submit" class="btn btn-light btn-block mt-3">Redefinir Senha</button>
                 </form>
             </div>
         </div>

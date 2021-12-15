@@ -32,6 +32,12 @@ def homepage():
         game = session.get("game")
 
     print(game, token, user_name)
+
+    if user_name != None and token != None and game != None:
+        session["user_name"] = None
+        session["token"] = None
+        session["game"] = None
+
     return render_template("homepage.html", user_name=user_name, token=token, game=game)
 
 

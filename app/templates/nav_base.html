@@ -1,0 +1,47 @@
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="{{url_for('home.homepage')}}">
+        <img src="{{url_for('static', filename='images/homepage/logoBr.png')}}" width="50px"
+            class="d-inline-block align-top" alt="">
+        <span class="logo-nav-br">BrTurbo</span><span class="logo-nav-arena">Arena</span>
+
+    </a>
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            {% if current_user.is_authenticated %}
+
+            {% if user_name and token and game == "1"%}
+            <a class="btn btn-info" href="{{url_for('home.dashboard')}}">
+                dashboard user
+            </a>
+            {%endif%}
+
+            {% else %}
+
+            {% if user_name is none%}
+            <a class="btn btn-info" href="{{url_for('auth.login')}}">
+                Login
+            </a>
+            {% endif %}
+
+
+
+            {% if user_name and token == None %} <a class="btn btn-info" href="{{url_for('auth.token')}}">
+                Inserir Token
+            </a>
+            {% endif %}
+
+            {% if user_name and token and game == "0" %}
+            <a class="btn btn-info" href="{{url_for('scrapy.add_game')}}">
+                Adicionar Jogo
+            </a>
+            {% endif %}
+
+            {%endif%}
+
+
+
+
+        </li>
+    </ul>
+
+</nav>

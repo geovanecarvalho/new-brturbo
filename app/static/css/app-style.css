@@ -370,6 +370,30 @@ hr {
     transition: all .3s ease;
 }
 
+
+.switcher-base{
+	width: 40px;
+    height: 40px;
+    padding: 8px;
+	line-height:40px;
+    background: #2a333c;
+	text-align:center;
+	font-size:22px;
+	color:#fff;
+	cursor: pointer;
+    display: inline-block;
+	box-shadow: 0 16px 38px -12px rgba(0,0,0,.56), 0 4px 25px 0 rgba(0,0,0,.12), 0 8px 10px -5px rgba(0,0,0,.2);
+    position: fixed;
+    left: 215px;
+    /* top: 15rem; */
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+	-webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
 .right-sidebar.right-toggled{
 	right: 0px;
 }
