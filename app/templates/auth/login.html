@@ -21,23 +21,76 @@
       <div class="card-title text-uppercase text-center py-3">Login</div>
       <form method="POST">
         <div class="form-group">
-          <label for="exampleInputUsername" class="sr-only">Username</label>
-          <div class="position-relative has-icon-right">
-            <input type="text" id="exampleInputUsername" name="email" class="form-control input-shadow"
-              placeholder="Entre com Email">
-            <div class="form-control-position">
-              <i class="icon-user"></i>
+          {{ form.csrf_token() }}
+            <label for="exampleInputUsername" class="sr-only">{{ form.email.label }}</label>
+            <div class="position-relative has-icon-right">
+            {% if not form.email.errors%}
+              {{form.email(class_="form-control input-shadow",placeholder="Entre com Email")}}
+              <div class="form-control-position">
+                <i class="icon-user"></i>
+              </div>
+            {% endif%}
             </div>
-          </div>
+
+            {% if form.email.errors %}
+              {% for errors in form.email.errors %}
+              <label for="exampleInputUsername" class="sr-only">{{ form.email.label }}</label>
+              <div class="position-relative has-icon-right">
+                {{form.email(class_="form-control input-shadow is-invalid",placeholder="Entre com Email")}}
+              </div>
+              <div class="alert alert-danger m-1 p-1 text-center">
+                <small id="passwordHelp" class="">
+                  {{errors}}
+                </small>      
+              </div>
+              {% endfor %}
+            {% endif %}
+          
+
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword" class="sr-only">Password</label>
+          <!-- <label for="exampleInputPassword" class="sr-only">Password</label>
           <div class="position-relative has-icon-right">
-            <input type="password" id="exampleInputPassword" name="password" class="form-control input-shadow"
+            <input type="password" id="passwordHelp" name="password" class="form-control input-shadow"
               placeholder="Enter Password">
             <div class="form-control-position">
               <i class="icon-lock"></i>
+            </div> -->
+            <label for="exampleInputUsername" class="sr-only">{{ form.email.label }}</label>
+            <div class="position-relative has-icon-right">
+            {% if not form.password.errors%}
+              {{form.password(class_="form-control input-shadow",placeholder="Entre com sua senha")}}
+              <div class="form-control-position">
+                <i class="icon-user"></i>
+              </div>
+            {% endif%}
             </div>
+
+            {% if form.password.errors %}
+              {% for errors in form.password.errors %}
+              <label for="exampleInputUsername" class="sr-only">{{ form.password.label }}</label>
+              <div class="position-relative has-icon-right">
+                {{form.password(class_="form-control input-shadow is-invalid",placeholder="Entre com sua senha")}}
+              </div>
+              <div class="alert alert-danger m-1 p-1 text-center">
+                <small id="passwordHelp" class="">
+                  {{errors}}
+                </small>      
+              </div>
+              {% endfor %}
+            {% endif %}
+
+          {% with messages = get_flashed_messages(with_categories=True)%}
+            {% if messages %}
+              {% for category, message in messages %}
+              <div class="alert alert-{{category}} m-1 p-1 text-center">
+                <small id="passwordHelp" class="">
+                  {{message}}
+                </small>      
+              </div>
+              {% endfor%}
+            {% endif %}
+          {% endwith %}
           </div>
         </div>
         <div class="form-row">
@@ -50,6 +103,7 @@
           <div class="form-group col-6 text-right">
             <a href="{{url_for('auth.recover_password')}}">Esqueceu sua senha?</a>
           </div>
+          
         </div>
         <button type="submit" class="btn btn-success btn-block">Entrar</button>
         <div class="text-center mt-3">Entrar com</div>

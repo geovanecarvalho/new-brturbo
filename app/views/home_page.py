@@ -1,15 +1,7 @@
-from flask_login import login_manager
 from . import home
-from flask import redirect, url_for, render_template, jsonify, session, request
+from flask import render_template, session
 from ..models.model_user import User
-from flask_login import login_required, current_user
-
-from ..services.scraping.brturbo import Brturbo
-from scrapy.crawler import CrawlerRunner
-import json
-
-
-import subprocess
+from flask_login import login_required
 
 
 @home.route("/")

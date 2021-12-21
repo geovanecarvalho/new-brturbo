@@ -1,5 +1,7 @@
 from logging import exception
 from flask_login.utils import login_required
+
+from app.forms.form_login import LoginForm
 from . import auth
 from flask import render_template, request, session, redirect, url_for, jsonify, flash
 from ..models.model_user import User
@@ -33,17 +35,19 @@ def current_user(user_id):
 
 @auth.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "POST":
-        email = request.form["email"]
-        password = request.form["password"]
+    form = LoginForm()
+    if form.validate_on_submit():
+        email = form.email.data
+        password = form.password.data
+        remenber_me = form.remenber_me.data
         user = User.objects(email=email).first()
 
         if not user:
-
+            flash(message="Email não encontrado", category="danger")
             return redirect(url_for("auth.login"))
 
         if not check_password_hash(user.password, password):
-
+            flash(message="Senha invalida", category="danger")
             return redirect(url_for("auth.login"))
 
         if user:
@@ -57,7 +61,7 @@ def login():
 
             return redirect(url_for("auth.token"))
 
-    return render_template("auth/login.html")
+    return render_template("auth/login.html", form=form)
 
 
 @auth.route("/register", methods=["GET", "POST"])
