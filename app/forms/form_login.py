@@ -15,5 +15,5 @@ class LoginForm(FlaskForm):
             Length(min=6, message="O campo deve conter entre 6 á 8 caracteres"),
         ],
     )
-    remenber_me = BooleanField("Permanecer Conectado")
+    remenber_me = BooleanField("Lembra-me")
     submit = SubmitField("Logar")

@@ -12,51 +12,47 @@
       </div>
       <div class="card-title text-uppercase text-center py-3">Cadastre-se</div>
       <form method="POST">
+        {{ form.csrf_token() }}
         <div class="form-group">
-          <label for="exampleInputName" class="sr-only">Nome</label>
+          <label for="exampleInputName" class="sr-only">{{form.first_name.label}}</label>
           <div class="position-relative has-icon-right">
-            <input type="text" id="exampleInputName" name='first_name' class="form-control input-shadow"
-              placeholder="Seu Nome">
+            {{form.first_name(class_="form-control input-shadow", id_="exampleInputName", placeholder_="Seu Nome")}}
             <div class="form-control-position">
               <i class="icon-user"></i>
             </div>
           </div>
         </div>
         <div class="form-group">
-          <label for="exampleInputName" class="sr-only">Sobrenome</label>
+          <label for="exampleInputName" class="sr-only">{{form.last_name.label}}</label>
           <div class="position-relative has-icon-right">
-            <input type="text" id="exampleInputName" name='last_name' class="form-control input-shadow"
-              placeholder="Seu sobrenome">
+            {{form.last_name(class_="form-control input-shadow", id_="exampleInputName", placeholder_="Seu Sobrenome")}}
             <div class="form-control-position">
               <i class="icon-user"></i>
             </div>
           </div>
         </div>
         <div class="form-group">
-          <label for="exampleInputEmailId" class="sr-only">Email</label>
+          <label for="exampleInputEmailId" class="sr-only">{{form.email.label}}</label>
           <div class="position-relative has-icon-right">
-            <input type="email" id="exampleInputEmailId" name='email' class="form-control input-shadow"
-              placeholder="Seu E-mail">
+            {{form.email(class_="form-control input-shadow", id_="exampleInputName", placeholder_="Seu Email")}}
             <div class="form-control-position">
               <i class="icon-envelope-open"></i>
             </div>
           </div>
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword" class="sr-only">Senha</label>
+          <label for="exampleInputPassword" class="sr-only">{{form.password.label}}</label>
           <div class="position-relative has-icon-right">
-            <input type="password" id="exampleInputPassword" name="password" class="form-control input-shadow"
-              placeholder="Sua Senha">
+            {{form.password(class_="form-control input-shadow", id_="exampleInputName", placeholder_="Sua Senha")}}
             <div class="form-control-position">
               <i class="icon-lock"></i>
             </div>
           </div>
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword" class="sr-only">Senha2</label>
+          <label for="exampleInputPassword" class="sr-only">{{form.password2.label}}</label>
           <div class="position-relative has-icon-right">
-            <input type="password" id="exampleInputPassword" name='password2' class="form-control input-shadow"
-              placeholder="Repita sua Senha">
+            {{form.password2(class_="form-control input-shadow", id_="exampleInputName", placeholder_="Repita sua Senha")}}
             <div class="form-control-position">
               <i class="icon-lock"></i>
             </div>
@@ -65,12 +61,12 @@
 
         <div class="form-group">
           <div class="icheck-material-white">
-            <input type="checkbox" id="user-checkbox" checked="" />
-            <label for="user-checkbox">eu concordo com os termos e condições</label>
+            {{form.terms(type_="checkbox", id_="user-checkbox")}}
+            <label for="user-checkbox">{{form.terms.label}}</label>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-success btn-block waves-effect waves-light">Cadastrar</button>
+        {{form.cadastrar(class_="btn btn-success btn-block waves-effect waves-light")}}
         <div class="text-center mt-3">Registra-se com</div>
 
         <div class="form-row mt-4">
@@ -88,7 +84,7 @@
     </div>
   </div>
   <div class="card-footer text-center py-3">
-    <p class="text-warning mb-0">Já tem uma conta? <a href="{{url_for('auth.login')}}" class='btn btn-success'>Acesse
+    <p class="text-warning mb-0">Já tem uma conta? <a href="{{url_for('auth.login')}}">Acesse
         Aqui</a></p>
   </div>
 </div>

@@ -2,6 +2,8 @@ from logging import exception
 from flask_login.utils import login_required
 
 from app.forms.form_login import LoginForm
+from app.forms.form_register import RegisterForm
+from app.forms.form_token import TokenForm
 from . import auth
 from flask import render_template, request, session, redirect, url_for, jsonify, flash
 from ..models.model_user import User
@@ -66,13 +68,14 @@ def login():
 
 @auth.route("/register", methods=["GET", "POST"])
 def register():
-    if request.method == "POST":
-        if request.form["password"] == request.form["password2"]:
+    form = RegisterForm()
+    if form.validate_on_submit():
+        if form.password.data == form.password2.data:
             user = User()
-            user.first_name = request.form["first_name"]
-            user.last_name = request.form["last_name"]
-            user.email = request.form["email"]
-            user.password = generate_password_hash(request.form["password"])
+            user.first_name = form.first_name.data
+            user.last_name = form.last_name.data
+            user.email = form.email.data
+            user.password = generate_password_hash(form.password.data)
 
             user.save()
 
@@ -87,7 +90,7 @@ def register():
 
             return redirect(url_for("auth.token"))
         flash("As senhas são diferentes")
-    return render_template("auth/register.html")
+    return render_template("auth/register.html", form=form)
 
 
 @auth.route("/token", methods=["GET", "POST"])
@@ -96,23 +99,29 @@ def token():
     user = User.objects(id=user_id).first()
     token = token_key.get_token()
 
-    if request.method == "POST":
+    form = TokenForm()
 
-        if request.form["token"] == token:
+    if form.validate_on_submit():
+        print(token, form.token.data)
+        if form.token.data == token:
             session["token"] = token
 
             user.update(token=token)
 
             return redirect(url_for("scrapy.add_game"))
+
+        flash(message="Token invalido!", category="danger")
     if session["user_id"] is None:
         return redirect(url_for("home.homepage"))
-    return render_template("auth/token.html")
+
+    return render_template("auth/token.html", form=form)
 
 
 @auth.route("/token_resend")
 def token_resend():
     flash(
-        "Eviamos o email com token novamente, verifique sua caixa de email ou sua caixa de span e ensira o token aqui, obrigado."
+        message="Eviamos o email com token novamente, verifique sua caixa de email ou sua caixa de span e ensira o token aqui, obrigado.",
+        category="info",
     )
     user_id = session["user_id"]
     user = User.objects(id=user_id).first()
